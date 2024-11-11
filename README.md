@@ -1,5 +1,5 @@
 <div align="right">
-  <img height="400" src="https://www.getviim.com/wp-content/uploads/2022/12/SharpSpringImage_Viim.webp"  />
+  <img height="300" src="https://www.getviim.com/wp-content/uploads/2022/12/SharpSpringImage_Viim.webp"  />
 </div>
 
 ###
