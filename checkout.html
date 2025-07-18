@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Modern Checkout - 3D Print Store</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+    
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    
+    .checkout-container {
+      max-width: 1400px;
+      margin: 20px auto;
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr 400px;
+      min-height: calc(100vh - 40px);
+    }
+    
+    .main-content {
+      padding: 40px;
+      background: #fff;
+    }
+    
+    .header {
+      margin-bottom: 40px;
+      text-align: center;
+    }
+    
+    .logo {
+      font-size: 24px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 8px;
+    }
+    
+    .subtitle {
+      color: #666;
+      font-weight: 400;
+    }
+    
+    h2 {
+      margin: 0 0 30px 0;
+      color: #1a1a1a;
+      font-weight: 600;
+      font-size: 20px;
+      position: relative;
+    }
+    
+    h2::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 40px;
+      height: 3px;
+      background: linear-gradient(90deg, #667eea, #764ba2);
+      border-radius: 2px;
+    }
+    
+    .form-section {
+      margin-bottom: 40px;
+    }
+    
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-group.full-width {
+      grid-column: 1 / -1;
+    }
+    
+    label {
+      font-weight: 500;
+      display: block;
+      margin-bottom: 8px;
+      color: #333;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .input-wrapper {
+      position: relative;
+    }
+    
+    .input-wrapper i {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #999;
+      font-size: 14px;
+    }
+    
+    input, select, textarea {
+      width: 100%;
+      padding: 14px 16px 14px 40px;
+      border: 2px solid #e1e5e9;
+      border-radius: 12px;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      background: #fafbfc;
+    }
+    
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: #667eea;
+      background: #fff;
+      box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+    }
+    
+    input::placeholder, textarea::placeholder {
+      color: #999;
+    }
+    
+    .payment-methods {
+      display: grid;
+      gap: 12px;
+      margin-top: 15px;
+    }
+    
+    .payment-option {
+      display: flex;
+      align-items: center;
+      padding: 16px;
+      border: 2px solid #e1e5e9;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: #fafbfc;
+    }
+    
+    .payment-option:hover {
+      border-color: #667eea;
+      background: #fff;
+    }
+    
+    .payment-option input[type="radio"] {
+      margin: 0 12px 0 0;
+      width: auto;
+    }
+    
+    .payment-option input[type="radio"]:checked + .payment-content {
+      color: #667eea;
+    }
+    
+    .payment-content {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+    }
+    
+    .payment-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      color: #fff;
+    }
+    
+    .cod { background: #10b981; }
+    .upi { background: #6366f1; }
+    .card { background: #f59e0b; }
+    
+    .coupon-section {
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      padding: 20px;
+      border-radius: 12px;
+      margin: 20px 0;
+    }
+    
+    .coupon-input {
+      display: flex;
+      gap: 12px;
+    }
+    
+    .coupon-input input {
+      flex: 1;
+    }
+    
+    .apply-btn {
+      padding: 14px 24px;
+      background: #667eea;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .apply-btn:hover {
+      background: #5a67d8;
+      transform: translateY(-1px);
+    }
+    
+    .terms-checkbox {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin: 20px 0;
+    }
+    
+    .terms-checkbox input[type="checkbox"] {
+      width: auto;
+      margin: 0;
+    }
+    
+    .terms-text {
+      font-size: 13px;
+      color: #666;
+      line-height: 1.5;
+    }
+    
+    .terms-text a {
+      color: #667eea;
+      text-decoration: none;
+    }
+    
+    /* Order Summary Styles */
+    .order-summary {
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+      color: #fff;
+      padding: 40px 30px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .order-summary::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="white" opacity="0.1"/><circle cx="10" cy="60" r="0.5" fill="white" opacity="0.1"/><circle cx="90" cy="40" r="0.5" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+      opacity: 0.3;
+    }
+    
+    .summary-content {
+      position: relative;
+      z-index: 1;
+    }
+    
+    .summary-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .summary-header h2 {
+      color: #fff;
+      margin-bottom: 8px;
+    }
+    
+    .summary-header h2::after {
+      background: #667eea;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    
+    .product-item {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 20px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .product-image {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      color: #fff;
+    }
+    
+    .product-details h4 {
+      margin: 0 0 4px 0;
+      font-weight: 600;
+    }
+    
+    .product-details p {
+      margin: 0;
+      color: #ccc;
+      font-size: 13px;
+    }
+    
+    .product-price {
+      font-weight: 600;
+      font-size: 16px;
+    }
+    
+    .summary-breakdown {
+      margin: 30px 0;
+    }
+    
+    .summary-item {
+      display: flex;
+      justify-content: space-between;
+      margin: 12px 0;
+      font-size: 14px;
+    }
+    
+    .summary-item.subtotal {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 15px;
+      margin-top: 15px;
+    }
+    
+    .summary-total {
+      font-weight: 700;
+      font-size: 18px;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 2px solid rgba(255,255,255,0.2);
+    }
+    
+    .checkout-btn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #fff;
+      padding: 18px;
+      width: 100%;
+      border: none;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 30px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .checkout-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s;
+    }
+    
+    .checkout-btn:hover::before {
+      left: 100%;
+    }
+    
+    .checkout-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+    }
+    
+    .security-badges {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    
+    .security-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: #ccc;
+    }
+    
+    .security-badge i {
+      color: #10b981;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+      .checkout-container {
+        grid-template-columns: 1fr;
+        margin: 10px;
+      }
+      
+      .order-summary {
+        order: -1;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .main-content {
+        padding: 20px;
+      }
+      
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+      
+      .order-summary {
+        padding: 30px 20px;
+      }
+    }
+    
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .form-section {
+      animation: fadeInUp 0.6s ease-out;
+    }
+    
+    .order-summary {
+      animation: fadeInUp 0.6s ease-out 0.2s both;
+    }
+    
+    /* Loading state */
+    .checkout-btn.loading {
+      pointer-events: none;
+      opacity: 0.7;
+    }
+    
+    .checkout-btn.loading::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 20px;
+      height: 20px;
+      border: 2px solid transparent;
+      border-top: 2px solid #fff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: translate(-50%, -50%) rotate(0deg); }
+      100% { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="checkout-container">
+    
+    <!-- Left Section -->
+    <div class="main-content">
+      <div class="header">
+        <div class="logo">3D Print Store</div>
+        <div class="subtitle">Complete your order securely</div>
+      </div>
+      
+      <form id="checkoutForm" action="submit-checkout.php" method="POST">
+        <div class="form-section">
+          <h2>Personal Information</h2>
+          <div class="form-row">
+            <div class="form-group">
+              <label>First Name *</label>
+              <div class="input-wrapper">
+                <i class="fas fa-user"></i>
+                <input type="text" name="firstname" required placeholder="Enter your first name" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Last Name *</label>
+              <div class="input-wrapper">
+                <i class="fas fa-user"></i>
+                <input type="text" name="lastname" required placeholder="Enter your last name" />
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label>Email Address *</label>
+            <div class="input-wrapper">
+              <i class="fas fa-envelope"></i>
+              <input type="email" name="email" required placeholder="your.email@example.com" />
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label>Phone Number *</label>
+            <div class="input-wrapper">
+              <i class="fas fa-phone"></i>
+              <input type="tel" name="phone" required placeholder="+91 98765 43210" />
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h2>Shipping Address</h2>
+          <div class="form-group">
+            <label>Street Address *</label>
+            <div class="input-wrapper">
+              <i class="fas fa-map-marker-alt"></i>
+              <input type="text" name="address" required placeholder="123 Main Street, Apartment 4B" />
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label>City *</label>
+              <div class="input-wrapper">
+                <i class="fas fa-city"></i>
+                <input type="text" name="city" required placeholder="Mumbai" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label>State *</label>
+              <div class="input-wrapper">
+                <i class="fas fa-map"></i>
+                <input type="text" name="state" required placeholder="Maharashtra" />
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label>Postal Code *</label>
+              <div class="input-wrapper">
+                <i class="fas fa-mail-bulk"></i>
+                <input type="text" name="postal" required placeholder="400001" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Country *</label>
+              <div class="input-wrapper">
+                <i class="fas fa-globe"></i>
+                <select name="country" required>
+                  <option value="">Select Country</option>
+                  <option value="IN" selected>India</option>
+                  <option value="US">United States</option>
+                  <option value="UK">United Kingdom</option>
+                  <option value="CA">Canada</option>
+                  <option value="AU">Australia</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h2>Payment Method</h2>
+          <div class="payment-methods">
+            <label class="payment-option">
+              <input type="radio" name="payment_method" value="cod" required>
+              <div class="payment-content">
+                <div class="payment-icon cod">
+                  <i class="fas fa-money-bill-wave"></i>
+                </div>
+                <div>
+                  <div style="font-weight: 600;">Cash on Delivery</div>
+                  <div style="font-size: 12px; color: #666;">Pay when you receive</div>
+                </div>
+              </div>
+            </label>
+            
+            <label class="payment-option">
+              <input type="radio" name="payment_method" value="upi">
+              <div class="payment-content">
+                <div class="payment-icon upi">
+                  <i class="fas fa-mobile-alt"></i>
+                </div>
+                <div>
+                  <div style="font-weight: 600;">UPI Payment</div>
+                  <div style="font-size: 12px; color: #666;">Google Pay, PhonePe, Paytm</div>
+                </div>
+              </div>
+            </label>
+            
+            <label class="payment-option">
+              <input type="radio" name="payment_method" value="card">
+              <div class="payment-content">
+                <div class="payment-icon card">
+                  <i class="fas fa-credit-card"></i>
+                </div>
+                <div>
+                  <div style="font-weight: 600;">Credit/Debit Card</div>
+                  <div style="font-size: 12px; color: #666;">Visa, Mastercard, RuPay</div>
+                </div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div class="coupon-section">
+          <label>Have a coupon code?</label>
+          <div class="coupon-input">
+            <input type="text" name="coupon" placeholder="Enter coupon code" />
+            <button type="button" class="apply-btn">Apply</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Additional Notes</label>
+          <textarea name="notes" rows="4" placeholder="Any special instructions or delivery preferences..."></textarea>
+        </div>
+
+        <div class="terms-checkbox">
+          <input type="checkbox" id="terms" required>
+          <label for="terms" class="terms-text">
+            I agree to the <a href="#" target="_blank">Terms & Conditions</a> and <a href="#" target="_blank">Privacy Policy</a>. 
+            I understand that my personal data will be processed in accordance with these policies.
+          </label>
+        </div>
+      </form>
+    </div>
+
+    <!-- Right Section -->
+    <div class="order-summary">
+      <div class="summary-content">
+        <div class="summary-header">
+          <h2>Order Summary</h2>
+          <p>Review your items and total</p>
+        </div>
+        
+        <div class="product-item">
+          <div class="product-image">
+            <i class="fas fa-cube"></i>
+          </div>
+          <div class="product-details">
+            <h4>Custom 3D Print</h4>
+            <p>High-quality PLA material</p>
+          </div>
+          <div class="product-price">₹1,200</div>
+        </div>
+        
+        <div class="summary-breakdown">
+          <div class="summary-item">
+            <span>Subtotal</span>
+            <span>₹1,200</span>
+          </div>
+          <div class="summary-item">
+            <span>Shipping</span>
+            <span>₹100</span>
+          </div>
+          <div class="summary-item">
+            <span>Tax (7.5%)</span>
+            <span>₹90</span>
+          </div>
+          <div class="summary-item subtotal">
+            <span>Discount</span>
+            <span>-₹0</span>
+          </div>
+          <div class="summary-item summary-total">
+            <span>Total</span>
+            <span>₹1,390</span>
+          </div>
+        </div>
+        
+        <button type="submit" form="checkoutForm" class="checkout-btn">
+          <i class="fas fa-lock"></i> Complete Order Securely
+        </button>
+        
+        <div class="security-badges">
+          <div class="security-badge">
+            <i class="fas fa-shield-alt"></i>
+            <span>SSL Secure</span>
+          </div>
+          <div class="security-badge">
+            <i class="fas fa-credit-card"></i>
+            <span>PCI Compliant</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // Form validation and enhancement
+    document.addEventListener('DOMContentLoaded', function() {
+      const form = document.getElementById('checkoutForm');
+      const checkoutBtn = document.querySelector('.checkout-btn');
+      const applyBtn = document.querySelector('.apply-btn');
+      
+      // Payment method selection enhancement
+      const paymentOptions = document.querySelectorAll('.payment-option');
+      paymentOptions.forEach(option => {
+        option.addEventListener('click', function() {
+          const radio = this.querySelector('input[type="radio"]');
+          radio.checked = true;
+          
+          // Remove active class from all options
+          paymentOptions.forEach(opt => opt.style.borderColor = '#e1e5e9');
+          paymentOptions.forEach(opt => opt.style.background = '#fafbfc');
+          
+          // Add active class to selected option
+          this.style.borderColor = '#667eea';
+          this.style.background = '#fff';
+        });
+      });
+      
+      // Coupon application
+      applyBtn.addEventListener('click', function() {
+        const couponInput = document.querySelector('input[name="coupon"]');
+        const coupon = couponInput.value.trim();
+        
+        if (coupon) {
+          // Simulate coupon validation
+          if (coupon.toLowerCase() === 'welcome10') {
+            alert('Coupon applied! 10% discount added.');
+            // Update total calculation here
+          } else {
+            alert('Invalid coupon code. Please try again.');
+          }
+        } else {
+          alert('Please enter a coupon code.');
+        }
+      });
+      
+      // Form submission
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Add loading state
+        checkoutBtn.classList.add('loading');
+        checkoutBtn.innerHTML = '';
+        
+        // Simulate processing
+        setTimeout(() => {
+          alert('Order submitted successfully! You will receive a confirmation email shortly.');
+          checkoutBtn.classList.remove('loading');
+          checkoutBtn.innerHTML = '<i class="fas fa-lock"></i> Complete Order Securely';
+        }, 2000);
+      });
+      
+      // Input focus effects
+      const inputs = document.querySelectorAll('input, select, textarea');
+      inputs.forEach(input => {
+        input.addEventListener('focus', function() {
+          this.parentElement.style.transform = 'scale(1.02)';
+        });
+        
+        input.addEventListener('blur', function() {
+          this.parentElement.style.transform = 'scale(1)';
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>
